@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import date
 from organizer.models import Tag, Startup
 
 class Post(models.Model):
@@ -7,13 +7,13 @@ class Post(models.Model):
     title = models.CharField(max_length = 63)
     slug = models.SlugField(max_length=63)
     text = models.TextField()
-    pub_date = models.DateField()
+    pub_date = models.DateField("date published", default=date.today)
     tags = models.ManyToManyField(Tag)
     startups = models.ManyToManyField(Startup)
 
     class Meta:
         get_latest_by = "pub_date"
-        ordering = ["- pub_date", "title"]
+        ordering = ["-pub_date", "title"]
         verbose_name = "blog post"
 
     def __str__(self):
